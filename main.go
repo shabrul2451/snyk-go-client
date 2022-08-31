@@ -15,11 +15,16 @@ import (
 
 func main() {
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("ERROR:", err.Error())
-		return
+	RunMode := os.Getenv("RUN_MODE")
+	if RunMode != "PRODUCTION" {
+		//Load .env file
+		err := godotenv.Load()
+		if err != nil {
+			log.Println("ERROR:", err.Error())
+			return
+		}
 	}
+	log.Println("RUN MODE:", RunMode)
 
 	url := "https://snyk.io/api/v1/org/" + os.Getenv("ORGANIZATION_ID") + "/project/" + os.Getenv("PROJECT_ID") + "/aggregated-issues"
 	method := "POST"
